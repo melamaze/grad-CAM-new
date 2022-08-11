@@ -21,7 +21,7 @@ def returnCAM(feature_conv, weight_softmax, class_idx):
     # generate the class activation maps upsample to 256x256
     size_upsample = (256, 256)
     bz, nc, h, w = feature_conv.shape
-    print(bz, nc, h, w, sep=' ')
+    # print(bz, nc, h, w, sep=' ')
     output_cam = []
     for idx in class_idx:
         cam = weight_softmax[idx].dot(feature_conv.reshape((nc, h*w)))
@@ -38,7 +38,7 @@ def show_cam(CAMs, width, height, orig_image, class_idx, save_name):
         result = heatmap * 0.5 + orig_image * 0.5
         # put class label text on the result
         res = str(int(class_idx[i]))
-        print('The result of classification is ', res)
+        print('The result of classification is --', res, '--\n')
         # cv2.putText(result, str(int(class_idx[i])), (20, 40), 
         #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         cv2.imshow('CAM', result/255.)
