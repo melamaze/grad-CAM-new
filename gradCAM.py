@@ -39,8 +39,8 @@ def show_cam(CAMs, width, height, orig_image, class_idx, save_name):
         # put class label text on the result
         res = str(int(class_idx[i]))
         print('The result of classification is ', res)
-        cv2.putText(result, str(int(class_idx[i])), (20, 40), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        # cv2.putText(result, str(int(class_idx[i])), (20, 40), 
+        #             cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         cv2.imshow('CAM', result/255.)
         cv2.waitKey(0)
         cv2.imwrite(f"outputs/CAM_{save_name}.jpg", result)
