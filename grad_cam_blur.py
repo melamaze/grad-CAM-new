@@ -14,7 +14,7 @@ device = ('cuda' if torch.cuda.is_available() else 'cpu')
 # initialize model, switch to eval model, load trained weights
 model = CNN_Model()
 model = model.eval()
-model.load_state_dict(torch.load('save_modelglobal_model.pth'))
+model.load_state_dict(torch.load('model.pth'))
 print(model)
 # https://github.com/zhoubolei/CAM/blob/master/pytorch_CAM.py
 def returnCAM(feature_conv, weight_softmax, class_idx):
@@ -44,7 +44,7 @@ def show_cam(CAMs, width, height, orig_image, class_idx, save_name, threshold):
 
         cv2.imshow('CAM', result/255.)
         cv2.waitKey(0)
-        cv2.imwrite(f"outputs/CAM_{save_name}.jpg", result)
+        # cv2.imwrite(f"outputs/CAM_{save_name}.jpg", result)
         for i in range(28):
             for j in range(28):
                 if result[i][j][2] >= threshold:
@@ -56,6 +56,7 @@ def show_cam(CAMs, width, height, orig_image, class_idx, save_name, threshold):
 # https://github.com/zhoubolei/CAM/blob/master/pytorch_CAM.py
 features_blobs = []
 def hook_feature(module, input, output):
+    features_blobs.clear()
     features_blobs.append(output.data.cpu().numpy())
 model._modules.get('conv').register_forward_hook(hook_feature)
 # get the softmax weight
@@ -75,7 +76,7 @@ transform = transforms.Compose(
 
 
 # run for all the images in the `input` folder
-for image_path in glob.glob('input/*'):
+for image_path in glob.glob('input3/*'):
     # read the image
     image = cv2.imread(image_path)
     orig_image = image.copy()
